@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import ChevronDown from '../assets/chevron-down.svg'
 import InboxIcon from '../assets/inbox-icon-two.svg'
@@ -7,12 +8,14 @@ import UserImg from '../assets/user-icon.svg'
 import TeamIcon from '../assets/teams-icon.svg'
 import Whatsapp from '../assets/whatsapp.svg'
 import Instagram from '../assets/instagram.svg'
+import { fetchUsers, fetchPosts } from '../services/api'
 
 type LinkItem = {
   label: string
   badge?: number
   active?: boolean
   icon?: string
+  id?: number
 }
 
 const inboxLinks: LinkItem[] = [
@@ -26,24 +29,49 @@ const teams: LinkItem[] = [
   { label: 'Customer Support', badge: 16, icon: 'team' },
 ]
 
-const users: LinkItem[] = [
-  { label: 'Sarah Williams', badge: 2 },
-  { label: 'Michael Johnson', badge: 11, active: true },
-  { label: 'Emily Davis', badge: 0 },
-  { label: 'Christopher Miller', badge: 4 },
-  { label: 'Amanda Garcia', badge: 5 },
-  { label: 'Joshua Martinez', badge: 2 },
-  { label: 'Ashley Taylor', badge: 2 },
-  { label: 'Daniel Anderson', badge: 0 },
-  { label: 'Jessica Thomas', badge: 2 },
-]
-
 const channels = [
   { label: 'Fit4Life', icon: 'Whatsapp' },
   { label: 'Fit4Life', icon: 'Instagram' },
 ]
 
 export function Sidebar() {
+  const [users, setUsers] = useState<LinkItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function loadUsers() {
+      try {
+        setLoading(true)
+        const usersData = await fetchUsers()
+        const postsData = await fetchPosts()
+
+        // Create user items with badge counts based on their posts
+        const usersList: LinkItem[] = usersData.slice(0, 9).map((user, index) => {
+          const userPosts = postsData.filter(p => p.userId === user.id)
+          // Make second user active (index 1)
+          return {
+            id: user.id,
+            label: user.name,
+            badge: userPosts.length > 0 ? userPosts.length % 12 : 0,
+            active: index === 1
+          }
+        })
+
+        setUsers(usersList)
+        setError(null)
+      } catch (err) {
+        setError('Failed to load users')
+        console.error('Error loading users:', err)
+        // Set fallback users
+        setUsers([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadUsers()
+  }, [])
   const iconAssets: Record<string, string> = {
     InboxIcon,
     AllIcon,
@@ -91,8 +119,10 @@ export function Sidebar() {
             <SidebarTitle>Users</SidebarTitle>
             <IconImg src={ChevronDown} alt="" />
           </SectionHeader>
-          {users.map((user) => (
-            <SidebarLink key={user.label} $active={user.active}>
+          {loading && <LoadingMessage>Loading users...</LoadingMessage>}
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {!loading && !error && users.map((user) => (
+            <SidebarLink key={user.id || user.label} $active={user.active}>
               <SidebarLabel>
                 <UserIcon src={UserImg} alt='user image' />
                 <LabelText>{user.label}</LabelText>
@@ -311,4 +341,18 @@ function iconColor(kind?: string) {
       return '#111827'
   }
 }
+
+const LoadingMessage = styled.div`
+  padding: 10px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 10px;
+`
+
+const ErrorMessage = styled.div`
+  padding: 10px;
+  text-align: center;
+  color: #ef4444;
+  font-size: 10px;
+`
 

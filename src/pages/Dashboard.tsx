@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import '../index.css'
 import { Topbar } from '../components/Topbar'
@@ -7,14 +8,16 @@ import { ChatWindow } from '../components/ChatWindow'
 import { DetailsPanel } from '../components/DetailsPanel'
 
 function App() {
+  const [selectedUserId, setSelectedUserId] = useState<number>(1)
+
   return (
     <AppShell>
       <Topbar />
       <LayoutGrid>
         <Sidebar />
-        <ChatList />
-        <ChatWindow />
-        <DetailsPanel />
+        <ChatList onSelectUser={setSelectedUserId} selectedUserId={selectedUserId} />
+        <ChatWindow userId={selectedUserId} />
+        <DetailsPanel userId={selectedUserId} />
       </LayoutGrid>
     </AppShell>
   )

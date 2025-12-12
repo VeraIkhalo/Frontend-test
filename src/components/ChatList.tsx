@@ -1,11 +1,14 @@
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Union from '../assets/union.svg'
 import ChevronDown from '../assets/chevron-down.svg'
 import Edit from '../assets/edit.svg'
 import Search from '../assets/search.svg'
 import Filter from '../assets/filter.svg'
+import { fetchUsers, fetchPosts } from '../services/api'
 
 type Chat = {
+  id: number
   name: string
   snippet: string
   time: string
@@ -13,19 +16,70 @@ type Chat = {
   active?: boolean
 }
 
-const chats: Chat[] = [
-  { name: 'Olivia Mckinsey', snippet: 'Oh my god 😍 I’ll try it ASAP, thank...', time: '23:23', color: 'purple', active: true },
-  { name: 'Sara Williams', snippet: 'Good Evening, Emily! Hope you are...', time: '23:16', color: 'gold' },
-  { name: 'Frank Thompson', snippet: 'Thank you for signing up Frank! If th...', time: '22:28', color: 'blue' },
-  { name: 'Grace Lee', snippet: 'I am sending you the report right a...', time: '20:43', color: 'red' },
-  { name: 'Henry Adams', snippet: 'Thank you for filling out our survey!', time: '17:37', color: 'gold' },
-  { name: 'Isabella Martinez', snippet: 'I will update you soon Isabella!', time: '16:01', color: 'orange' },
-  { name: 'James Brown', snippet: 'Hello James! Let’s collaborate on...', time: '13:44', color: 'blue' },
-  { name: 'Katherine White', snippet: 'Hi Katherine, looking forward to t...', time: '09:02', color: 'gold' },
-  { name: 'Lucas Green', snippet: 'Hey Lucas! Ready for the holiday...', time: 'Yesterday', color: 'blue' },
+const colors: Array<'blue' | 'gold' | 'red' | 'green' | 'gray' | 'purple' | 'orange'> = [
+  'purple', 'gold', 'blue', 'red', 'gold', 'orange', 'blue', 'gold', 'blue', 'green'
 ]
 
-export function ChatList() {
+function formatTime(date: Date): string {
+  const hours = date.getHours().toString().padStart(2, '0')
+  const minutes = date.getMinutes().toString().padStart(2, '0')
+  return `${hours}:${minutes}`
+}
+
+function getSnippet(text: string, maxLength: number = 40): string {
+  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
+}
+
+interface ChatListProps {
+  onSelectUser: (userId: number) => void
+  selectedUserId: number
+}
+
+export function ChatList({ onSelectUser, selectedUserId }: ChatListProps) {
+  const [chats, setChats] = useState<Chat[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function loadChats() {
+      try {
+        setLoading(true)
+        const users = await fetchUsers()
+        const posts = await fetchPosts()
+
+
+        const chatsData: Chat[] = users.slice(0, 9).map((user, index) => {
+          const userPosts = posts.filter(p => p.userId === user.id)
+          const latestPost = userPosts[userPosts.length - 1]
+          const now = new Date()
+          const timeAgo = new Date(now.getTime() - (index * 60000 * (5 + Math.random() * 60)))
+
+          return {
+            id: user.id,
+            name: user.name,
+            snippet: latestPost ? getSnippet(latestPost.body) : 'No messages yet...',
+            time: formatTime(timeAgo),
+            color: colors[index % colors.length],
+            active: user.id === selectedUserId
+          }
+        })
+
+        setChats(chatsData)
+        setError(null)
+      } catch (err) {
+        setError('Failed to load chats')
+        console.error('Error loading chats:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadChats()
+  }, [selectedUserId])
+
+  const handleChatClick = (userId: number) => {
+    onSelectUser(userId)
+  }
   return (
     <Panel>
       <PanelHeader>
@@ -49,14 +103,21 @@ export function ChatList() {
             Open <ListIcon src={ChevronDown} alt='chevron down' />
           </Pill>
           <FilterGroup>
-            
+
             <Pill $variant="silver">
               Newest <ListIcon src={ChevronDown} alt='chevron down' />
             </Pill>
           </FilterGroup>
         </FilterRow>
-        {chats.map((chat) => (
-          <ListItem key={chat.name} $active={chat.active}>
+        {loading && <LoadingMessage>Loading chats...</LoadingMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {!loading && !error && chats.map((chat) => (
+          <ListItem
+            key={chat.id}
+            $active={chat.active}
+            onClick={() => handleChatClick(chat.id)}
+            style={{ cursor: 'pointer' }}
+          >
             <Avatar $tone={chat.color}>{chat.name.charAt(0)}</Avatar>
             <ItemMeta>
               <ItemRow>
@@ -258,5 +319,19 @@ const TimeStamp = styled.span`
   color: #000000CC;
   font-size: 8px;
   font-weight: 600;
+`
+
+const LoadingMessage = styled.div`
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 12px;
+`
+
+const ErrorMessage = styled.div`
+  padding: 20px;
+  text-align: center;
+  color: #ef4444;
+  font-size: 12px;
 `
 

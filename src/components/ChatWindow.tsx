@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import OptionIcon from '../assets/option-icon.svg'
 import DownloadIcon from '../assets/download-icon.svg'
@@ -10,6 +11,7 @@ import Emoji from '../assets/emoji.svg'
 import Forward from '../assets/forward.svg'
 import Audio from '../assets/audio.svg'
 import Vector from '../assets/vector.svg'
+import { fetchPostsWithComments, fetchUser, type User } from '../services/api'
 
 type Message = {
   from: 'user' | 'agent' | 'system'
@@ -18,41 +20,81 @@ type Message = {
   status?: 'read' | 'sent'
 }
 
-const messages: Message[] = [
-  {
-    from: 'user',
-    text: "Hi, I recently joined Fit4Life and I'm trying to access my workout plan, but I can’t login. Can you help?",
-    time: '23:08',
-  },
-  {
-    from: 'agent',
-    text: "Hello Olivia 👋 I'm Michael, your AI customer support assistant. Let's fix this quickly. Could you confirm the email address?",
-    time: '23:08',
-    status: 'read',
-  },
-  { from: 'user', text: 'Yes, it’s olivia.Mckinsey@gmail.com', time: '23:16' },
-  {
-    from: 'agent',
-    text: 'Thanks! Looks like your reset wasn’t completed. I’ve sent a new link – please check your inbox.',
-    time: '23:16',
-    status: 'read',
-  },
-  { from: 'user', text: 'I see it. resetting now...', time: '23:17' },
-  { from: 'user', text: "Done! I'm logged in. Thanks!", time: '23:20' },
-  {
-    from: 'agent',
-    text: "Perfect 🎉 Your plan is ready under “My Programs”. Since you’re starting out, I suggest our Premium Guide - it boosts results and is 20% off here 👉 www.Fit4Life.com/Premium",
-    time: '23:20',
-    status: 'read',
-  },
-  { from: 'user', text: "Oh my god 😍 I'll try it ASAP, thank you so much!!", time: '23:23' },
-]
+function formatTime(date: Date): string {
+  const hours = date.getHours().toString().padStart(2, '0')
+  const minutes = date.getMinutes().toString().padStart(2, '0')
+  return `${hours}:${minutes}`
+}
 
-export function ChatWindow() {
+function formatDate(date: Date): string {
+  const months = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December']
+  return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
+}
+
+interface ChatWindowProps {
+  userId: number
+}
+
+export function ChatWindow({ userId }: ChatWindowProps) {
+  const [messages, setMessages] = useState<Message[]>([])
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function loadChat() {
+      try {
+        setLoading(true)
+        const [userData, postsWithComments] = await Promise.all([
+          fetchUser(userId),
+          fetchPostsWithComments(userId)
+        ])
+
+        setUser(userData)
+
+        const messagesData: Message[] = []
+        const now = new Date()
+
+        postsWithComments.slice(0, 5).forEach((post, postIndex) => {
+          const postTime = new Date(now.getTime() - ((postsWithComments.length - postIndex) * 60000 * 15))
+
+          messagesData.push({
+            from: 'user',
+            text: post.body,
+            time: formatTime(postTime)
+          })
+
+          if (post.comments.length > 0) {
+            const comment = post.comments[0]
+            const commentTime = new Date(postTime.getTime() + 300000) // 5 minutes later
+            messagesData.push({
+              from: 'agent',
+              text: comment.body,
+              time: formatTime(commentTime),
+              status: 'read'
+            })
+          }
+        })
+
+        setMessages(messagesData)
+        setError(null)
+      } catch (err) {
+        setError('Failed to load chat')
+        console.error('Error loading chat:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (userId) {
+      loadChat()
+    }
+  }, [userId])
   return (
     <Panel>
       <PanelHeader>
-        <PanelTitle>Olivia Mckinsey</PanelTitle>
+        <PanelTitle>{user?.name || 'Loading...'}</PanelTitle>
         <HeaderActions>
           <Icon src={OptionIcon} alt='' />
           <Icon src={MoonIcon} alt='' />
@@ -60,9 +102,11 @@ export function ChatWindow() {
         </HeaderActions>
       </PanelHeader>
       <ChatWindowShell>
-        <Chip style={{ margin: '12px auto 0' }}>28 August 2025</Chip>
+        <Chip style={{ margin: '12px auto 0' }}>{formatDate(new Date())}</Chip>
         <ChatContent>
-          {messages.map((msg, idx) => {
+          {loading && <LoadingMessage>Loading messages...</LoadingMessage>}
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {!loading && !error && messages.map((msg, idx) => {
             const variant =
               msg.from === 'agent' ? 'outgoing' : msg.from === 'user' ? 'incoming' : 'system'
             return (
@@ -346,4 +390,18 @@ const IconTwo = styled.div`
     justify-content: flex-end;
     gap: 6px;
   }
+`
+
+const LoadingMessage = styled.div`
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 12px;
+`
+
+const ErrorMessage = styled.div`
+  padding: 20px;
+  text-align: center;
+  color: #ef4444;
+  font-size: 12px;
 `

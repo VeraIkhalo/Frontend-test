@@ -46,6 +46,14 @@ const Main = styled.div`
   height: 100vh;
   background: #001132;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+  }
 `
 
 const NextLevel = styled.div`
@@ -55,6 +63,14 @@ const NextLevel = styled.div`
   background: radial-gradient(ellipse at 70% 50%, #009EFF 0%, #292E6B 60%, #1F223D 100%);
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    border-radius: 16px;
+  }
+
+  @media (max-width: 480px) {
+    border-radius: 12px;
+  }
 
   &::before {
     content: '';
@@ -72,6 +88,20 @@ const NextLevel = styled.div`
     z-index: 0;
     pointer-events: none;
     filter: drop-shadow(0 0 15px rgba(0, 158, 255, 0.7));
+
+    @media (max-width: 768px) {
+      width: 400px;
+      height: 400px;
+      right: -150px;
+      border-width: 2px;
+    }
+
+    @media (max-width: 480px) {
+      width: 300px;
+      height: 300px;
+      right: -100px;
+      border-width: 2px;
+    }
   }
 
   @keyframes rotateLine {
@@ -104,16 +134,38 @@ const CentralContainer = styled.div`
   flex-direction: column;
   align-items: center;
   z-index: 2;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    top: 10%;
+    padding: 0 16px;
+  }
+
+  @media (max-width: 480px) {
+    top: 8%;
+    padding: 0 12px;
+  }
 `
 
 const GreenBorder = styled.div`
- 
   border-radius: 8px;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px;
+    margin-bottom: 20px;
+  }
 `
 
 const PolygonContainer = styled.div`
@@ -123,6 +175,16 @@ const PolygonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+
+  @media (max-width: 480px) {
+    width: 120px;
+    height: 120px;
+  }
 `
 
 const PolygonImage = styled.img`
@@ -140,8 +202,21 @@ const PolygonOne = styled.img`
   height: 90px;
   object-fit: contain;
   z-index: 3;
-  cursor:pointer;
-  
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+    left: 10%;
+    top: 8%;
+  }
+
+  @media (max-width: 480px) {
+    width: 45px;
+    height: 45px;
+    left: 8%;
+    top: 5%;
+  }
 `
 
 const PolygonTwo = styled.img`
@@ -152,8 +227,21 @@ const PolygonTwo = styled.img`
   height: 80px;
   object-fit: contain;
   z-index: 3;
-  cursor:pointer;
- 
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 55px;
+    height: 55px;
+    left: 5%;
+    top: 35%;
+  }
+
+  @media (max-width: 480px) {
+    width: 40px;
+    height: 40px;
+    left: 5%;
+    top: 30%;
+  }
 `
 const PolygonThree = styled.img`
   position: absolute;
@@ -163,8 +251,21 @@ const PolygonThree = styled.img`
   height: 80px;
   object-fit: contain;
   z-index: 3;
-  cursor:pointer;
- 
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 55px;
+    height: 55px;
+    left: 15%;
+    top: 45%;
+  }
+
+  @media (max-width: 480px) {
+    width: 40px;
+    height: 40px;
+    left: 12%;
+    top: 40%;
+  }
 `
 
 const AvatarPolygonOne = styled.img`
@@ -175,8 +276,21 @@ const AvatarPolygonOne = styled.img`
   height: 80px;
   object-fit: contain;
   z-index: 3;
-  cursor:pointer;
-  
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+    right: 10%;
+    top: 8%;
+  }
+
+  @media (max-width: 480px) {
+    width: 45px;
+    height: 45px;
+    right: 8%;
+    top: 5%;
+  }
 `
 
 const AvatarPolygonTwo = styled.img`
@@ -187,7 +301,21 @@ const AvatarPolygonTwo = styled.img`
   z-index: 3;
   width: 60px;
   height: 60px;
-  cursor:pointer;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 45px;
+    height: 45px;
+    right: 12%;
+    top: 45%;
+  }
+
+  @media (max-width: 480px) {
+    width: 35px;
+    height: 35px;
+    right: 10%;
+    top: 40%;
+  }
 `
 
 const AvatarPolygonThree = styled.img`
@@ -198,7 +326,21 @@ const AvatarPolygonThree = styled.img`
   z-index: 3;
   width: 90px;
   height: 90px;
-  cursor:pointer;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+    right: 20%;
+    top: 18%;
+  }
+
+  @media (max-width: 480px) {
+    width: 45px;
+    height: 45px;
+    right: 15%;
+    top: 15%;
+  }
 `
 
 const TextContainer = styled.div`
@@ -207,35 +349,67 @@ const TextContainer = styled.div`
   align-items: center;
   text-align: center;
   gap: 12px;
+  width: 100%;
+  max-width: 500px;
+
+  @media (max-width: 768px) {
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    gap: 8px;
+  }
 `
 
 const Title = styled.h1`
   color: #ffffff;
   margin: 0;
   font-family: Roboto;
-    font-weight: 700;
-    font-style: Bold;
-    font-size: 38px;
-    leading-trim: NONE;
-    line-height: 120%;
-    letter-spacing: 0%;
-    text-align: center;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 38px;
+  leading-trim: NONE;
+  line-height: 120%;
+  letter-spacing: 0%;
+  text-align: center;
+  width: 100%;
 
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 22px;
+    line-height: 130%;
+  }
 `
 
 const Subtitle = styled.p`
   color: #ffffff;
   margin: 0;
   max-width: 500px;
-
-
   font-family: Ronzino;
-font-weight: 400;
-font-style: Regular;
-font-size: 18px;
-leading-trim: NONE;
-line-height: 120%;
-letter-spacing: 0%;
-text-align: center;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 18px;
+  leading-trim: NONE;
+  line-height: 120%;
+  letter-spacing: 0%;
+  text-align: center;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
 
+  @media (max-width: 768px) {
+    font-size: 16px;
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    line-height: 140%;
+    padding: 0 4px;
+  }
 `
