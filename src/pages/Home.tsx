@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import AvatarPolygon from '../assets/avatar-polygon.svg'
 import BoxPolygon from '../assets/box-polygon.svg'
@@ -6,39 +7,97 @@ import Polygon from '../assets/polygon.svg'
 import WorkflowPolygon from '../assets/workflow.svg'
 import WorkPolygon from '../assets/work.svg'
 
-function App() {
-    return (
-        <>
-            <Main>
-                <NextLevel>
-                    <Groupp>
-                        <PolygonOne src={StarPolygon} alt="Avatar" />
-                        <PolygonTwo src={BoxPolygon} alt="Avatar" />
-                        <PolygonThree src={AvatarPolygon} alt="Avatar" />
-                    </Groupp>
-                    <CentralContainer>
-                        <GreenBorder>
-                            <PolygonContainer>
-                                <PolygonImage src={Polygon} alt="Polygon" />
-                            </PolygonContainer>
-                        </GreenBorder>
-                        <TextContainer>
-                            <Title>Extracting Information...</Title>
-                            <Subtitle>We are extracting information from the above honey combs to your system</Subtitle>
-                        </TextContainer>
-                    </CentralContainer>
-                    <Group>
-                        <AvatarPolygonOne src={AvatarPolygon} alt="Avatar" />
-                        <AvatarPolygonTwo src={WorkflowPolygon} alt="Avatar" />
-                        <AvatarPolygonThree src={WorkPolygon} alt="Avatar" />
-                    </Group>
-                </NextLevel>
-            </Main>
-        </>
-    )
+interface HomeProps {
+  onIconClick: (section: string, iconSrc: string, fromX: number, fromY: number, toX: number, toY: number) => void
+  selectedSection: string | null
+}
+
+function App({ onIconClick, selectedSection }: HomeProps) {
+  const iconRefs = useRef<{ [key: string]: HTMLImageElement | null }>({})
+
+  const handleIconClick = (section: string, iconSrc: string, event: React.MouseEvent<HTMLImageElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    const fromX = rect.left + rect.width / 2
+    const fromY = rect.top + rect.height / 2
+    
+    // Destination: Inbox section on left sidebar (approximate position)
+    const toX = 135 // Left sidebar center (270px / 2)
+    const toY = 200 // Approximately where inbox items start
+
+    onIconClick(section, iconSrc, fromX, fromY, toX, toY)
+  }
+
+  return (
+    <>
+      <Main>
+        <NextLevel>
+          <Groupp>
+            <PolygonOne
+              ref={(el) => iconRefs.current['inbox'] = el}
+              src={StarPolygon}
+              alt="Inbox"
+              $selected={selectedSection === 'inbox'}
+              onClick={(e) => handleIconClick('inbox', StarPolygon, e)}
+            />
+            <PolygonTwo
+              ref={(el) => iconRefs.current['contacts'] = el}
+              src={BoxPolygon}
+              alt="Contacts"
+              $selected={selectedSection === 'contacts'}
+              onClick={(e) => handleIconClick('contacts', BoxPolygon, e)}
+            />
+            <PolygonThree
+              ref={(el) => iconRefs.current['users'] = el}
+              src={AvatarPolygon}
+              alt="Users"
+              $selected={selectedSection === 'users'}
+              onClick={(e) => handleIconClick('users', AvatarPolygon, e)}
+            />
+          </Groupp>
+          <CentralContainer>
+            <GreenBorder>
+              <PolygonContainer>
+                <PolygonImage src={Polygon} alt="Polygon" />
+              </PolygonContainer>
+            </GreenBorder>
+            <TextContainer>
+              <Title>Extracting Information...</Title>
+              <Subtitle>We are extracting information from the above honey combs to your system</Subtitle>
+            </TextContainer>
+          </CentralContainer>
+          <Group>
+            <AvatarPolygonOne
+              ref={(el) => iconRefs.current['workflows'] = el}
+              src={AvatarPolygon}
+              alt="Workflows"
+              $selected={selectedSection === 'workflows'}
+              onClick={(e) => handleIconClick('workflows', AvatarPolygon, e)}
+            />
+            <AvatarPolygonTwo
+              ref={(el) => iconRefs.current['campaigns'] = el}
+              src={WorkflowPolygon}
+              alt="Campaigns"
+              $selected={selectedSection === 'campaigns'}
+              onClick={(e) => handleIconClick('campaigns', WorkflowPolygon, e)}
+            />
+            <AvatarPolygonThree
+              ref={(el) => iconRefs.current['settings'] = el}
+              src={WorkPolygon}
+              alt="Settings"
+              $selected={selectedSection === 'settings'}
+              onClick={(e) => handleIconClick('settings', WorkPolygon, e)}
+            />
+          </Group>
+        </NextLevel>
+      </Main>
+    </>
+  )
 }
 
 export default App
+
+// Also export as named for clarity
+export { App as Home }
 
 
 const Main = styled.div`
@@ -194,15 +253,35 @@ const PolygonImage = styled.img`
   cursor:pointer;
 `
 
-const PolygonOne = styled.img`
+const HoneycombIcon = styled.img<{ $selected?: boolean }>`
   position: absolute;
+  object-fit: contain;
+  z-index: 3;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: ${({ $selected }) => 
+    $selected 
+      ? 'drop-shadow(0 0 20px rgba(0, 158, 255, 0.8)) drop-shadow(0 0 40px rgba(0, 158, 255, 0.5))' 
+      : 'none'};
+
+  &:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(0, 158, 255, 0.6));
+  }
+
+  ${({ $selected }) => $selected && `
+    background: linear-gradient(135deg, rgba(0, 158, 255, 0.3), rgba(41, 46, 107, 0.3));
+    border-radius: 8px;
+    padding: 4px;
+  `}
+`
+
+// Left side icons
+const PolygonOne = styled(HoneycombIcon)`
   top: 10%;
   left: 15%;
   width: 90px;
   height: 90px;
-  object-fit: contain;
-  z-index: 3;
-  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 60px;
@@ -219,15 +298,11 @@ const PolygonOne = styled.img`
   }
 `
 
-const PolygonTwo = styled.img`
-  position: absolute;
+const PolygonTwo = styled(HoneycombIcon)`
   top: 40%;
   left: 5%;
   width: 80px;
   height: 80px;
-  object-fit: contain;
-  z-index: 3;
-  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 55px;
@@ -243,15 +318,12 @@ const PolygonTwo = styled.img`
     top: 30%;
   }
 `
-const PolygonThree = styled.img`
-  position: absolute;
+
+const PolygonThree = styled(HoneycombIcon)`
   top: 50%;
   left: 20%;
   width: 80px;
   height: 80px;
-  object-fit: contain;
-  z-index: 3;
-  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 55px;
@@ -268,15 +340,12 @@ const PolygonThree = styled.img`
   }
 `
 
-const AvatarPolygonOne = styled.img`
-  position: absolute;
+// Right side icons
+const AvatarPolygonOne = styled(HoneycombIcon)`
   top: 10%;
   right: 15%;
   width: 80px;
   height: 80px;
-  object-fit: contain;
-  z-index: 3;
-  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 60px;
@@ -293,15 +362,11 @@ const AvatarPolygonOne = styled.img`
   }
 `
 
-const AvatarPolygonTwo = styled.img`
-  position: absolute;
+const AvatarPolygonTwo = styled(HoneycombIcon)`
   top: 50%;
   right: 18%;
-  object-fit: contain;
-  z-index: 3;
   width: 60px;
   height: 60px;
-  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 45px;
@@ -318,15 +383,11 @@ const AvatarPolygonTwo = styled.img`
   }
 `
 
-const AvatarPolygonThree = styled.img`
-  position: absolute;
+const AvatarPolygonThree = styled(HoneycombIcon)`
   top: 20%;
   right: 30%;
-  object-fit: contain;
-  z-index: 3;
   width: 90px;
   height: 90px;
-  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 60px;
