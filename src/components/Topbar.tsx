@@ -24,6 +24,18 @@ const navItems: NavItem[] = [
   { label: 'Campaigns', Icon: CampaignIcon },
 ]
 
+const NavLabel = styled.span`
+  @media (max-width: 640px) {
+    display: none;
+  }
+`
+
+const UserName = styled.span`
+  @media (max-width: 640px) {
+    display: none;
+  }
+`
+
 export function Topbar() {
   return (
     <TopbarShell>
@@ -41,7 +53,7 @@ export function Topbar() {
                 ) : (
                   <Icon size={10.53} />
                 )}
-                {item.label}
+                <NavLabel>{item.label}</NavLabel>
               </NavItem>
             )
           })}
@@ -52,7 +64,7 @@ export function Topbar() {
         <SettingsGroup src={SettingsIcon} />
         <UserChip>
           <UserAvatar>M</UserAvatar>
-          Michael Johnson
+          <UserName>Michael Johnson</UserName>
         </UserChip>
       </UserGroup>
     </TopbarShell>
@@ -71,6 +83,12 @@ const TopbarShell = styled.header`
   position: sticky;
   top: 0;
   z-index: 10;
+
+  @media (max-width: 640px) {
+    height: 56px;
+    padding: 0 12px;
+    border-radius: 0;
+  }
 `
 
 const Brand = styled.div`
@@ -83,10 +101,21 @@ const BrandGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+
+  @media (max-width: 640px) {
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+  }
 `
 
 const BrandMark = styled.div`
   width: 100%;
+
+  @media (max-width: 640px) {
+    width: 80px;
+    flex-shrink: 0;
+  }
 `
 
 const Nav = styled.nav`
@@ -99,6 +128,20 @@ const Nav = styled.nav`
   @media (max-width: 960px) {
     width: 100%;
     justify-content: center;
+  }
+
+  @media (max-width: 640px) {
+    gap: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex: 1;
+    min-width: 0;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `
 
@@ -118,6 +161,14 @@ const NavItem = styled.span<{ $active?: boolean }>`
   font-style: Medium;
   line-height: 100%;
   letter-spacing: 0%;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  @media (max-width: 640px) {
+    padding: 6px 8px;
+    font-size: 9px;
+    gap: 4px;
+  }
 
   &:hover {
     
@@ -128,11 +179,20 @@ const UserGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
-  
+
+  @media (max-width: 640px) {
+    gap: 12px;
+    flex-shrink: 0;
+  }
 `
 
 const SettingsGroup = styled.img`
-  
+  cursor: pointer;
+
+  @media (max-width: 640px) {
+    width: 18px;
+    height: 18px;
+  }
 `
 const UserChip = styled.div`
   display: flex;
@@ -145,6 +205,10 @@ const UserChip = styled.div`
   leading-trim: NONE;
   line-height: 100%;
   letter-spacing: 0%;
+
+  @media (max-width: 640px) {
+    gap: 6px;
+  }
 `
 
 const UserAvatar = styled.div`
