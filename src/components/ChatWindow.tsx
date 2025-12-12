@@ -169,15 +169,14 @@ const MessageBubble = styled.div<{ $variant: 'incoming' | 'outgoing' | 'system' 
   line-height: 1.5;
   position: relative;
   background: ${({ $variant }) =>
-    $variant === 'outgoing' ? '#d9cbf7' : $variant === 'system' ? '#EDE3FD' : '#EFF2F2'};
-  border: 1px solid
-    ${({ $variant }) =>
-    $variant === 'outgoing' ? '#cfc0f0' : $variant === 'system' ? '#e5e7eb' : '#e5e7eb'};
-  color: ${({ $variant }) =>
-    $variant === 'outgoing' ? '#3a2b6b' : $variant === 'system' ? '#6b7280' : '#111827'};
+    $variant === 'outgoing' ? '#EDE3FD' : $variant === 'system' ? '#EDE3FD' : '#EFF2F2'};
+  color: #000000;
   margin-left: ${({ $variant }) => ($variant === 'outgoing' ? 'auto' : '0')};
   align-self: ${({ $variant }) => ($variant === 'system' ? 'center' : 'flex-start')};
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.05);
+  height:54px;
+  display:flex;
+  align-items: center;
 `
 
 const MessageMeta = styled.span<{ $variant: 'incoming' | 'outgoing' | 'system' }>`
