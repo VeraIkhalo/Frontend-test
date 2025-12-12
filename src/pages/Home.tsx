@@ -49,13 +49,45 @@ const Main = styled.div`
 `
 
 const NextLevel = styled.div`
-  border-radius:24px;
-  border:2px solid #FFFFFF1A;
-  height:100%;
+  border-radius: 24px;
+  border: 2px solid #FFFFFF1A;
+  height: 100%;
   background: radial-gradient(ellipse at 70% 50%, #009EFF 0%, #292E6B 60%, #1F223D 100%);
   position: relative;
   overflow: hidden;
-`
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    border: 3px solid transparent;
+    border-top: 3px solid rgba(0, 158, 255, 0.8);
+    border-right: 3px solid rgba(0, 158, 255, 0.6);
+    border-radius: 50%;
+    transform: rotate(0deg);
+    animation: rotateLine 8s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 0 15px rgba(0, 158, 255, 0.7));
+  }
+
+  @keyframes rotateLine {
+    0% {
+      transform: rotate(0deg);
+      filter: drop-shadow(0 0 15px rgba(0, 158, 255, 0.7));
+    }
+    50% {
+      filter: drop-shadow(0 0 25px rgba(0, 158, 255, 1));
+    }
+    100% {
+      transform: rotate(360deg);
+      filter: drop-shadow(0 0 15px rgba(0, 158, 255, 0.7));
+    }
+  }
+`;
 
 const Group = styled.div`
 `
