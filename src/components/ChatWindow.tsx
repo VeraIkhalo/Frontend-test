@@ -91,9 +91,10 @@ export function ChatWindow() {
 }
 
 const Panel = styled.section`
+  margin:0 8px;
   background: #ffffff;
-  border-radius: 0 9px 9px 0;
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.04);
+  border-radius: 8px;
+  box-shadow: 0 12px 28px #0000001F;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -116,7 +117,7 @@ const PanelTitle = styled.div`
 `
 
 const Icon = styled.img`
-  
+  cursor: pointer;
 `
 
 const HeaderActions = styled.div`
@@ -156,7 +157,7 @@ const ChatContent = styled.div`
 
 const MessageRow = styled.div<{ $variant: 'incoming' | 'outgoing' | 'system' }>`
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 6px;
   justify-content: ${({ $variant }) => ($variant === 'outgoing' ? 'flex-end' : 'flex-start')};
 `
@@ -174,7 +175,6 @@ const MessageBubble = styled.div<{ $variant: 'incoming' | 'outgoing' | 'system' 
   margin-left: ${({ $variant }) => ($variant === 'outgoing' ? 'auto' : '0')};
   align-self: ${({ $variant }) => ($variant === 'system' ? 'center' : 'flex-start')};
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.05);
-  height:54px;
   display:flex;
   align-items: center;
 `
@@ -184,7 +184,7 @@ const MessageMeta = styled.span<{ $variant: 'incoming' | 'outgoing' | 'system' }
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  order: ${({ $variant }) => ($variant === 'outgoing' ? -1 : 1)};
+  order: ${({ $variant }) => ($variant === 'outgoing' ? 1 : 1)};
   font-weight: 500;
   font-style: Regular;
   font-size: 7px;
@@ -214,7 +214,7 @@ const ChatFooter = styled.div`
   }
 `
 
-const ChatInput = styled.input`
+const ChatInput = styled.textarea`
   flex: 1;
   padding: 12px 14px;
   border-radius: 12px;
