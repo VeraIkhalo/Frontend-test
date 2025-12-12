@@ -112,6 +112,11 @@ const Panel = styled.section`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 640px) {
+    margin: 0;
+    border-radius: 0;
+  }
 `
 
 const PanelHeader = styled.div`
@@ -122,21 +127,38 @@ const PanelHeader = styled.div`
   justify-content: space-between;
   gap: 12px;
   background: #fff;
+
+  @media (max-width: 640px) {
+    padding: 12px 16px;
+  }
 `
 
 const PanelTitle = styled.div`
   font-weight: 800;
   font-size: 13px;
   color: #000000;
+
+  @media (max-width: 640px) {
+    font-size: 12px;
+  }
 `
 
 const Icon = styled.img`
   cursor: pointer;
+
+  @media (max-width: 640px) {
+    width: 16px;
+    height: 16px;
+  }
 `
 
 const HeaderActions = styled.div`
   display: inline-flex;
   gap: 6px;
+
+  @media (max-width: 640px) {
+    gap: 4px;
+  }
 `
 
 const Chip = styled.div`
@@ -167,6 +189,11 @@ const ChatContent = styled.div`
   flex-direction: column;
   gap: 12px;
   background: #ffffff;
+
+  @media (max-width: 640px) {
+    padding: 12px 12px 8px;
+    gap: 10px;
+  }
 `
 
 const MessageRow = styled.div<{ $variant: 'incoming' | 'outgoing' | 'system' }>`
@@ -191,6 +218,12 @@ const MessageBubble = styled.div<{ $variant: 'incoming' | 'outgoing' | 'system' 
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.05);
   display:flex;
   align-items: center;
+
+  @media (max-width: 640px) {
+    max-width: 85%;
+    padding: 8px 10px;
+    font-size: 11px;
+  }
 `
 
 const MessageMeta = styled.span<{ $variant: 'incoming' | 'outgoing' | 'system' }>`
@@ -217,11 +250,21 @@ const ChatFooter = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  padding: 12px;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
 
   @media (max-width: 960px) {
     position: sticky;
     bottom: 0;
     padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
+    gap: 8px;
   }
 `
 
@@ -234,6 +277,13 @@ const ChatInput = styled.textarea`
   outline:none;
   background: #FFFFFF;
   font-size: 10px;
+  resize: none;
+
+  @media (max-width: 640px) {
+    padding: 12px 14px;
+    height: 70px;
+    font-size: 11px;
+  }
 `
 
 const FooterIcon = styled.button`
@@ -245,15 +295,27 @@ const FooterIcon = styled.button`
   place-items: center;
   font-size: 16px;
   cursor: pointer;
+  flex-shrink: 0;
 
   &:hover {
     background: #f1f2f3;
     border-radius: 50%;
   }
+
+  @media (max-width: 640px) {
+    width: 28px;
+    height: 28px;
+  }
 `
 
 const Icons = styled.img`
-  
+  width: 18px;
+  height: 18px;
+
+  @media (max-width: 640px) {
+    width: 16px;
+    height: 16px;
+  }
 `
 
 const IconOne = styled.div`
@@ -262,7 +324,13 @@ const IconOne = styled.div`
   bottom: 10px;
   display: flex;
   align-items: center;
-  
+  gap: 8px;
+
+  @media (max-width: 640px) {
+    position: static;
+    justify-content: flex-start;
+    gap: 6px;
+  }
 `
 
 const IconTwo = styled.div`
@@ -271,5 +339,11 @@ const IconTwo = styled.div`
   bottom: 10px;
   display: flex;
   align-items: center;
-  
+  gap: 8px;
+
+  @media (max-width: 640px) {
+    position: static;
+    justify-content: flex-end;
+    gap: 6px;
+  }
 `
