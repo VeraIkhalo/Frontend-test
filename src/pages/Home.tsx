@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import AvatarPolygon from '../assets/avatar-polygon.svg'
 import BoxPolygon from '../assets/box-polygon.svg'
 import StarPolygon from '../assets/star-polygon.svg'
@@ -58,21 +58,9 @@ const NextLevel = styled.div`
 `
 
 const Group = styled.div`
-  
 `
 
 const Groupp = styled.div`
-
-  
-`
-
-const swirl = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 `
 
 const CentralContainer = styled.div`
@@ -109,7 +97,6 @@ const PolygonImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
-  animation: ${swirl} 3s linear infinite;
   cursor:pointer;
 `
 
