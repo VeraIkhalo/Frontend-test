@@ -33,7 +33,7 @@ const AppShell = styled.div`
 
 const LayoutGrid = styled.main`
   display: grid;
-  grid-template-columns: 260px 340px 1fr 320px;
+  grid-template-columns: 270px 350px 1fr 390px;
   padding: 8px 0;
   min-height: calc(100vh - 68px);
 

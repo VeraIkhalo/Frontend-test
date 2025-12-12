@@ -62,7 +62,7 @@ export function Topbar() {
 const TopbarShell = styled.header`
   height: 68px;
   display: flex;
-  border-radius: 11.23px;
+  border-radius: 11px;
   align-items: center;
   justify-content: space-between;
   padding: 0 22px;
@@ -109,12 +109,12 @@ const NavItem = styled.span<{ $active?: boolean }>`
   gap: 8px;
   padding: 8px 10px;
   font-size:10px;
-  border-radius: 5.61px;
+  border-radius: 6px;
   color: #000000;
   background: ${({ $active }) => ($active ? '#EFF2F2' : 'transparent')};
-  border: 0.7px solid ${({ $active }) => ($active ? '#D8DEE4' : 'transparent')};
+  border: 1px solid ${({ $active }) => ($active ? '#D8DEE4' : 'transparent')};
   transition: background 0.15s ease, color 0.15s ease;
-  font-weight: 556;
+  font-weight: 600;
   font-style: Medium;
   line-height: 100%;
   letter-spacing: 0%;
@@ -141,21 +141,21 @@ const UserChip = styled.div`
   color: #111827;
   font-family: Inter;
   font-weight: 600;
-  font-size: 9.82px;
+  font-size: 10px;
   leading-trim: NONE;
   line-height: 100%;
   letter-spacing: 0%;
 `
 
 const UserAvatar = styled.div`
-  width: 19.65px;
-  height: 19.65px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: #FE3265;
   color: #fff;
   display: grid;
   place-items: center;
   font-weight: semibold;
-  font-size: 9.82px;
+  font-size: 10px;
 `
 
