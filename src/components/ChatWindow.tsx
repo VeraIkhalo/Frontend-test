@@ -3,6 +3,13 @@ import OptionIcon from '../assets/option-icon.svg'
 import DownloadIcon from '../assets/download-icon.svg'
 import MoonIcon from '../assets/moon-icon.svg'
 import TickIcon from '../assets/tick-icon.svg'
+import File from '../assets/file.svg'
+import Video from '../assets/video.svg'
+import Document from '../assets/document.svg'
+import Emoji from '../assets/emoji.svg'
+import Forward from '../assets/forward.svg'
+import Audio from '../assets/audio.svg'
+import Vector from '../assets/vector.svg'
 
 type Message = {
   from: 'user' | 'agent' | 'system'
@@ -65,7 +72,7 @@ export function ChatWindow() {
                     {msg.time}
                     {msg.status === 'read' && <CheckIcon>
                       <Tick src={TickIcon} alt='' />
-                      </CheckIcon>}
+                    </CheckIcon>}
                   </MessageMeta>
                 )}
                 <MessageBubble $variant={variant}>{msg.text}</MessageBubble>
@@ -77,13 +84,20 @@ export function ChatWindow() {
           })}
         </ChatContent>
         <ChatFooter>
-          <FooterIcon aria-label="Gallery">🖼️</FooterIcon>
-          <FooterIcon aria-label="File">📄</FooterIcon>
-          <FooterIcon aria-label="Emoji">😊</FooterIcon>
-          <FooterIcon aria-label="Reply">↩︎</FooterIcon>
-          <ChatInput placeholder="Type something...." />
-          <FooterIcon aria-label="Lightning">⚡</FooterIcon>
-          <FooterIcon aria-label="Mic">🎤</FooterIcon>
+          <ChatInput placeholder="Type something...." rows={4} />
+          <IconOne>
+            <FooterIcon aria-label="Gallery">
+              <Icons src={File} alt='' />
+            </FooterIcon>
+            <FooterIcon aria-label="File"><Icons src={Video} alt='' /></FooterIcon>
+            <FooterIcon aria-label="Emoji"><Icons src={Document} alt='' /></FooterIcon>
+            <FooterIcon aria-label="Reply"><Icons src={Emoji} alt='' /></FooterIcon>
+            <FooterIcon aria-label="Reply"><Icons src={Forward} alt='' /></FooterIcon>
+          </IconOne>
+          <IconTwo>
+            <FooterIcon aria-label="Lightning"><Icons src={Vector} alt='' /></FooterIcon>
+            <FooterIcon aria-label="Mic"><Icons src={Audio} alt='' /></FooterIcon>
+          </IconTwo>
         </ChatFooter>
       </ChatWindowShell>
     </Panel>
@@ -200,12 +214,9 @@ const CheckIcon = styled.span`
 
 const ChatFooter = styled.div`
   margin-top: auto;
-  padding: 12px;
-  border-top: 1px solid #e5e7eb;
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: #fff;
 
   @media (max-width: 960px) {
     position: sticky;
@@ -215,12 +226,14 @@ const ChatFooter = styled.div`
 `
 
 const ChatInput = styled.textarea`
-  flex: 1;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  background: #f7f7f7;
-  font-size: 14px;
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: 1px solid #D8DEE4;
+  height:81px;
+  outline:none;
+  background: #FFFFFF;
+  font-size: 10px;
 `
 
 const FooterIcon = styled.button`
@@ -239,3 +252,24 @@ const FooterIcon = styled.button`
   }
 `
 
+const Icons = styled.img`
+  
+`
+
+const IconOne = styled.div`
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  
+`
+
+const IconTwo = styled.div`
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  
+`
