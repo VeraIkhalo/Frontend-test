@@ -156,8 +156,10 @@ const Panel = styled.section`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
   min-height: 0;
+  padding-bottom:60px;
+  
 
   @media (max-width: 640px) {
     margin: 0;
@@ -328,6 +330,7 @@ const ChatInput = styled.textarea`
   background: #FFFFFF;
   font-size: 10px;
   resize: none;
+  
 
   @media (max-width: 640px) {
     padding: 12px 14px;
@@ -370,8 +373,8 @@ const Icons = styled.img`
 
 const IconOne = styled.div`
   position: absolute;
-  left: 10px;
-  bottom: 10px;
+  left: 15px;
+  bottom: 20px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -385,8 +388,8 @@ const IconOne = styled.div`
 
 const IconTwo = styled.div`
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 15px;
+  bottom: 20px;
   display: flex;
   align-items: center;
   gap: 8px;
