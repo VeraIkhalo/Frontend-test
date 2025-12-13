@@ -20,9 +20,8 @@ function App({ onIconClick, selectedSection }: HomeProps) {
     const fromX = rect.left + rect.width / 2
     const fromY = rect.top + rect.height / 2
     
-    // Destination: Inbox section on left sidebar (approximate position)
-    const toX = 135 // Left sidebar center (270px / 2)
-    const toY = 200 // Approximately where inbox items start
+    const toX = 135 
+    const toY = 200 
 
     onIconClick(section, iconSrc, fromX, fromY, toX, toY)
   }
@@ -96,7 +95,6 @@ function App({ onIconClick, selectedSection }: HomeProps) {
 
 export default App
 
-// Also export as named for clarity
 export { App as Home }
 
 
@@ -276,7 +274,6 @@ const HoneycombIcon = styled.img<{ $selected?: boolean }>`
   `}
 `
 
-// Left side icons
 const PolygonOne = styled(HoneycombIcon)`
   top: 10%;
   left: 15%;
@@ -340,7 +337,6 @@ const PolygonThree = styled(HoneycombIcon)`
   }
 `
 
-// Right side icons
 const AvatarPolygonOne = styled(HoneycombIcon)`
   top: 10%;
   right: 15%;

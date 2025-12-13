@@ -65,13 +65,11 @@ export function DetailsPanel({ userId }: DetailsPanelProps) {
     }
   }, [userId])
 
-  // Generate contact labels from user data
   const contactLabels = user ? [
     user.company?.name || 'Closed Won',
     user.address?.city || 'Chicago'
   ] : ['Closed Won', 'Chicago']
 
-  // Use posts as other chats
   const otherChats = posts.slice(0, 3).map((post) => ({
     label: post.title.split(' ').slice(0, 2).join(' '),
     status: post.body.substring(0, 30) + '...',

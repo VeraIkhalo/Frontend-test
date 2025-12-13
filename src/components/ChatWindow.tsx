@@ -67,7 +67,7 @@ export function ChatWindow({ userId }: ChatWindowProps) {
 
           if (post.comments.length > 0) {
             const comment = post.comments[0]
-            const commentTime = new Date(postTime.getTime() + 300000) // 5 minutes later
+            const commentTime = new Date(postTime.getTime() + 300000) 
             messagesData.push({
               from: 'agent',
               text: comment.body,
@@ -156,6 +156,8 @@ const Panel = styled.section`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  min-height: 0;
 
   @media (max-width: 640px) {
     margin: 0;
@@ -233,6 +235,10 @@ const ChatContent = styled.div`
   flex-direction: column;
   gap: 12px;
   background: #ffffff;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   @media (max-width: 640px) {
     padding: 12px 12px 8px;

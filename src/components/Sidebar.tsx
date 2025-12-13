@@ -46,10 +46,8 @@ export function Sidebar() {
         const usersData = await fetchUsers()
         const postsData = await fetchPosts()
 
-        // Create user items with badge counts based on their posts
         const usersList: LinkItem[] = usersData.slice(0, 9).map((user, index) => {
           const userPosts = postsData.filter(p => p.userId === user.id)
-          // Make second user active (index 1)
           return {
             id: user.id,
             label: user.name,

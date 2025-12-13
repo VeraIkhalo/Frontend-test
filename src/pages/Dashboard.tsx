@@ -51,13 +51,11 @@ function App({ animatingIcon }: DashboardProps) {
   })
 
   useEffect(() => {
-    // Start with empty shell, then show skeleton content after a brief delay
     const skeletonDelay = 300
     
     setTimeout(() => {
       setShowContent(true)
       
-      // Then progressively load actual content (replacing skeletons)
       const loadDelays = {
         sidebar: skeletonDelay + 500,
         chatList: skeletonDelay + 800,
@@ -88,7 +86,6 @@ function App({ animatingIcon }: DashboardProps) {
       <Topbar />
       <LayoutGrid>
         {!showContent ? (
-          // Empty shell state - just the panel structures
           <>
             <EmptyPanel />
             <EmptyPanel />
