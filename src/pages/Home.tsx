@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import styled from 'styled-components'
 import AvatarPolygon from '../assets/avatar-polygon.svg'
 import BoxPolygon from '../assets/box-polygon.svg'
@@ -33,21 +33,21 @@ function App({ onIconClick, selectedSection }: HomeProps) {
         <NextLevel>
           <Groupp>
             <PolygonOne
-              ref={(el) => iconRefs.current['inbox'] = el}
+              ref={(el) => { iconRefs.current['inbox'] = el }}
               src={StarPolygon}
               alt="Inbox"
               $selected={selectedSection === 'inbox'}
               onClick={(e) => handleIconClick('inbox', StarPolygon, e)}
             />
             <PolygonTwo
-              ref={(el) => iconRefs.current['contacts'] = el}
+              ref={(el) => { iconRefs.current['contacts'] = el }}
               src={BoxPolygon}
               alt="Contacts"
               $selected={selectedSection === 'contacts'}
               onClick={(e) => handleIconClick('contacts', BoxPolygon, e)}
             />
             <PolygonThree
-              ref={(el) => iconRefs.current['users'] = el}
+              ref={(el) => { iconRefs.current['users'] = el }}
               src={AvatarPolygon}
               alt="Users"
               $selected={selectedSection === 'users'}
@@ -67,21 +67,21 @@ function App({ onIconClick, selectedSection }: HomeProps) {
           </CentralContainer>
           <Group>
             <AvatarPolygonOne
-              ref={(el) => iconRefs.current['workflows'] = el}
+              ref={(el) => { iconRefs.current['workflows'] = el }}
               src={AvatarPolygon}
               alt="Workflows"
               $selected={selectedSection === 'workflows'}
               onClick={(e) => handleIconClick('workflows', AvatarPolygon, e)}
             />
             <AvatarPolygonTwo
-              ref={(el) => iconRefs.current['campaigns'] = el}
+              ref={(el) => { iconRefs.current['campaigns'] = el }}
               src={WorkflowPolygon}
               alt="Campaigns"
               $selected={selectedSection === 'campaigns'}
               onClick={(e) => handleIconClick('campaigns', WorkflowPolygon, e)}
             />
             <AvatarPolygonThree
-              ref={(el) => iconRefs.current['settings'] = el}
+              ref={(el) => { iconRefs.current['settings'] = el }}
               src={WorkPolygon}
               alt="Settings"
               $selected={selectedSection === 'settings'}

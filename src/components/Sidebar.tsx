@@ -161,6 +161,8 @@ const Panel = styled.section`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  min-height: 0;
 `
 
 const PanelHeader = styled.div`
@@ -180,10 +182,13 @@ const PanelTitle = styled.div`
 
 const PanelBody = styled.div`
   padding: 10px 14px 18px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  flex: 1;
+  min-height: 0;
 `
 
 const SidebarSection = styled.div`
