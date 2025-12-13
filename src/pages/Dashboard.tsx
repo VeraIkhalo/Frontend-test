@@ -161,6 +161,9 @@ const AppShell = styled.div`
   background: #EFF0EB;
   animation: ${slideUpFromBottom} 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   transform-origin: bottom;
+  @media (max-width: 768px) {
+    height: auto;
+  }
 `
 
 const LayoutGrid = styled.main`
